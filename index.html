@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Generator Helper</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            position: relative;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+            z-index: 1;
+        }
+        h1 {
+            color: #ff6f61;
+        }
+        p {
+            color: #333;
+        }
+        input[type="file"] {
+            margin: 20px 0;
+            padding: 10px;
+            border: 2px solid #ff6f61;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button {
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #ff4a3d;
+        }
+        .output {
+            margin-top: 20px;
+        }
+        .output img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px;
+            border: 2px solid #ff6f61;
+            border-radius: 10px;
+        }
+        .decorative-image {
+            position: absolute;
+            width: 100px;
+            height: auto;
+            opacity: 0.8;
+        }
+        .decorative-image.top-left {
+            top: 20px;
+            left: 20px;
+        }
+        .decorative-image.top-right {
+            top: 20px;
+            right: 20px;
+        }
+        .decorative-image.bottom-left {
+            bottom: 20px;
+            left: 20px;
+        }
+        .decorative-image.bottom-right {
+            bottom: 20px;
+            right: 20px;
+        }
+        .drop-zone {
+            border: 2px dashed #ff6f61;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .drop-zone.dragover {
+            background-color: #ffebeb;
+        }
+    </style>
+</head>
+<body>
+    <img src="path/to/cartoon1.png" class="decorative-image top-left" alt="Cartoon 1">
+    <img src="path/to/cartoon2.png" class="decorative-image top-right" alt="Cartoon 2">
+    <img src="path/to/cartoon3.png" class="decorative-image bottom-left" alt="Cartoon 3">
+    <img src="path/to/cartoon4.png" class="decorative-image bottom-right" alt="Cartoon 4">
+
+    <div class="container">
+        <h1>Emoji Generator</h1>
+        <p>Upload an image, and we will convert it into multiple GIF format cartoon or anime pictures.</p>
+        <input type="file" id="imageInput" accept="image/*">
+        <div class="drop-zone" id="dropZone">Drag and drop an image here</div>
+        <button onclick="generateEmojis()">Generate Emojis</button>
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const imageInput = document.getElementById('imageInput');
+        const output = document.getElementById('output');
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length) {
+                imageInput.files = files;
+                generateEmojis();
+            }
+        });
+
+        function generateEmojis() {
+            output.innerHTML = ''; // Clear previous output
+
+            if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Here you can call your AI model to generate emoji GIFs
+                    // Below is an example assuming three generated GIFs
+                    const gifs = [
+                        'path/to/generated1.gif',
+                        'path/to/generated2.gif',
+                        'path/to/generated3.gif'
+                    ];
+
+                    gifs.forEach(gif => {
+                        const img = document.createElement('img');
+                        img.src = gif;
+                        output.appendChild(img);
+                    });
+                };
+                reader.readAsDataURL(imageInput.files[0]);
+            } else {
+                alert('Please select an image first');
+            }
+        }
+    </script>
+</body>
+</html>
